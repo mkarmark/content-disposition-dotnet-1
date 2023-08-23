@@ -1,7 +1,9 @@
 using System;
+using System.IO;
 using System.Linq;
 using System.Net;
 using BlazorApp.Shared;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Azure.Functions.Worker.Http;
 using Microsoft.Extensions.Logging;
@@ -34,6 +36,22 @@ namespace ApiIsolated
             response.WriteAsJsonAsync(result);
 
             return response;
+        }
+
+          [FunctionName("GetCsv")]
+        public async Task<IActionResult> RunGetCsvAsync(
+                    [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = null)] HttpRequest req)
+        {
+            var stream = new MemoryStream();
+            var writer = new StreamWriter(stream);
+            writer.Write("hello world!");
+            writer.Flush();
+            stream.Position = 0;
+            
+            return new FileStreamResult(memoryStream, "text/csv")
+            {
+                FileDownloadName = $"Sample-{DateTime.Today.ToString("yyyy-MM-dd")}.csv",
+            };
         }
 
         private string GetSummary(int temp)
