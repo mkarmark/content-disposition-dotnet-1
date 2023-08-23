@@ -38,7 +38,7 @@ namespace ApiIsolated
             return response;
         }
 
-          [FunctionName("GetCsv")]
+        [Function("GetCsv")]
         public IActionResult RunGetCsvAsync([HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = null)] HttpRequestData req)
         {
             var stream = new MemoryStream();
