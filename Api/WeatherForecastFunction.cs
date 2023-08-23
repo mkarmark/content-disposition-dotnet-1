@@ -47,7 +47,7 @@ namespace ApiIsolated
             writer.Flush();
             stream.Position = 0;
             
-            return new FileStreamResult(memoryStream, "text/csv")
+            return new FileStreamResult(stream, "text/csv")
             {
                 FileDownloadName = $"Sample-{DateTime.Today.ToString("yyyy-MM-dd")}.csv",
             };
